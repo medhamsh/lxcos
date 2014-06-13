@@ -7,12 +7,20 @@ projects, can host each of the project in the containers.
 Micro Architecture:
 
 1. Install the base/host (Ubuntu - 14.04) on two hosts/ec2 instances.
+  - knife-ssh/knife-ec2 wrapper. takes ssh/cloud creds and setup host with base LXC and etcd endpoints (chef cookbook) 
 2. Have a service discovery, key valus store setup on them
+  - will be done as part of the 1st
 3. Start an LXC container in one of the host for each of the project.(PHP/Rails/Python/Any webapp)
+  - invoke scripts to create base container and run chef inside them to configure stuff
 4. Provision a vhost on the base/host which points to the internal ip of the container.
+  - setup haproxy on the host with chef , that proxies ssh/http of individual containers with different ports in host.
 5. HAve a vhost inside the container which serves the code.
+  - need clarification
 6. Use configuration management system to setup needed software/custom drivers in the containers.
+ -  explained above
 7. Ability to destroy the entire container and all its redirection pointers from the host.
 8. Store container attributes like hostname, ip address, etc. in the key value store.
+ - chef server will do this anyway. but we can use etcd as well
 9. Route ssh traffic to the container based on hostname (fqdn)
+ - fqdn should point to hosts's ip. we have to figure out a way to do name based haproxy (failsafe option is to provide a different port, will that work?)
 
