@@ -1,0 +1,17 @@
+GOAL: An operating system that should be able to run across several nodes(physical machines/virtual machines)
+which can spawn LXC containers across the nodes and store all the metadata over the cluster. 
+
+This will help people to host modern day datacentre with resource saving. For organisations who run several
+projects, can host each of the project in the containers.
+
+Micro Architecture:
+
+1. Install the base/host (Ubuntu - 14.04) on two hosts/ec2 instances.
+2. Have a service discovery, key valus store setup on them
+3. Start an LXC container in one of the host for each of the project.(PHP/Rails/Python/Any webapp)
+4. Provision a vhost on the base/host which points to the internal ip of the container.
+5. HAve a vhost inside the container which serves the code.
+6. Use configuration management system to setup needed software/custom drivers in the containers.
+7. Ability to destroy the entire container and all its redirection pointers from the host.
+8. Store container attributes like hostname, ip address, etc. in the key value store.
+
