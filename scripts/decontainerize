@@ -1,0 +1,16 @@
+#!/bin/bash
+
+project=$1
+
+#First stop the container 
+
+lxc-stop -n $project
+
+#Wait for 10 seconds for safe stop
+
+sleep 10
+
+#Destroy the container
+
+lxc-destroy -n $project
+

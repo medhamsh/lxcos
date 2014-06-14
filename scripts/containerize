@@ -1,0 +1,24 @@
+#!/bin/bash
+#Initialize
+
+project=$1
+container_type=$2
+
+#Clone the container
+
+lxc-clone -o $container_type -n $project
+
+#Start the container
+
+lxc-start -n $project -d
+
+#Recreate superadmin's keys
+
+lxc-attach -n $project sudo superadmin-init
+
+#Finally display the container's ip address
+sleep 8
+IP=`lxc-info -n $project -i`
+echo "Go get into the container"
+echo "$IP"
+
