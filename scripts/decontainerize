@@ -1,4 +1,9 @@
 #!/bin/bash
+#Usage###########################################################
+# $decontainerize <project>
+# This stops the container and destroys wihtout taking any backup
+# Use at high risk
+#################################################################
 
 project=$1
 

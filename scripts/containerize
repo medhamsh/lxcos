@@ -1,5 +1,10 @@
 #!/bin/bash
-#Initialize
+#Usage#######################################################
+# $containerize <project> <container-type>
+#This clones a template into container for the project,
+#starts it and then executes certain script in the container
+#for some reconfiguration stuff.
+#############################################################
 
 project=$1
 container_type=$2
