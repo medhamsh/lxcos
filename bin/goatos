@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+
+require 'mixlib/cli'
+require 'goatos'
+require 'goatos/bootstrapper'
+
+module GoatOS
+  class CLI
+
+    include Mixlib::CLI
+
+    option :name,
+      short: '-n CHEF_NODE_NAME',
+      long: '--node-name CHEF_NODE_NAME',
+      description: 'Chef node name',
+      required: false
+
+    option :ssh_user,
+      short: '-u SSH_USER',
+      long: '--user SSH_USER',
+      description: 'SSH user name',
+      required: true
+
+    option :ssh_password,
+      short: '-p SSH_PASSWORD',
+      long: '--password SSH_PASSWORD',
+      description: 'SSH Password',
+      required: true
+
+    def run
+      parse_options(ARGV)
+      bootstrapper = Bootstrapper.new(ARGV.first, config)
+      bootstrapper.bootstrap
+    end
+  end
+end
+
+if __FILE__ == $0
+  GoatOS::CLI.new.run
+end
