@@ -11,6 +11,10 @@ gem_package 'ruby-lxc' do
   version '1.1'
 end
 
+gem_package 'sshkey' do
+  gem_binary '/opt/chef/embedded/bin/gem'
+end
+
 gem_package 'serfx' do
   gem_binary '/opt/chef/embedded/bin/gem'
 end
@@ -66,4 +70,17 @@ directory '/opt/goatos/.cache/lxc' do
   user node['goatos']['user']
   group node['goatos']['group']
   mode 0751
+end
+
+directory '/opt/goatos/.ssh' do
+  user node['goatos']['user']
+  group node['goatos']['group']
+  mode 0700
+end
+
+file '/etc/lxc/lxc-usernet' do
+  owner 'root'
+  group 'root'
+  mode 0644
+  content "#{node['goatos']['user']} veth lxcbr0 100\n"
 end
