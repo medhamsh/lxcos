@@ -24,16 +24,16 @@ module GoatOS
         knife_bootstrap
         node_set('recipe[goatos::configure]')
         invoke_chef_run
+        write_private_key
         stop_chef_zero
       end
     end
 
-    def node_set(*items)
+    def node_set(item)
+      p @config
       node = Chef::Node.load(@config[:name])
       node.run_list.reset!
-      items.each do |item|
-        node.run_list << item
-      end
+      node.run_list << item
       node.save
     end
 
@@ -42,6 +42,15 @@ module GoatOS
       plugin.config[:all] = true
       plugin.config[:cookbook_path] = [ File.expand_path('../../../cookbooks', __FILE__) ]
       plugin.run
+    end
+
+    def write_private_key
+      FileUtils.rm_rf('goatos_rsa') if File.exist?('goatos_rsa')
+      node = Chef::Node.load(@config[:name])
+      File.open('goatos_rsa', 'w') do |f|
+        f.write(node['goatos']['sshkey'])
+      end
+      File.chmod(0400, 'goatos_rsa')
     end
 
     def start_chef_zero
